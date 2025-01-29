@@ -18,7 +18,7 @@ const Searchbar = () => {
                name="query"
                className="border-none bg-transparent text-slate-900 focus:ring-0 focus:border-transparent w-full"
             />
-            <Button type="submit" variant={"ghost"}>
+            <Button type="submit" variant={"link"}>
                <Search className="size-5" />
             </Button>
          </div>

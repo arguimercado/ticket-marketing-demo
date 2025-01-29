@@ -70,3 +70,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .btn-info {
+    @apply bg-sky-800 text-primary-foreground hover:bg-sky-500;
+  }
+}
