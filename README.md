@@ -24,3 +24,12 @@ A cutting-edge event ticketing platform crafted with Next.js15, Convex, Clerk, a
 - 🔄 Bulk refund processing
 
 
+### Environment Variables
+Create `.env.local` file with:
+
+`
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_bmVhdC1ib2FyLTE3LmNsZXJrLmFjY291bnRzLmRldiQ
+CLERK_SECRET_KEY=sk_test_FJZNCXVxY8clFFW9k639PS1FSGPj9lUIW3cHY4j0Zi
+CONVEX_DEPLOYMENT=dev:next-pheasant-368
+NEXT_PUBLIC_CONVEX_URL=https://next-pheasant-368.convex.cloud
+`
