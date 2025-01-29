@@ -44,10 +44,14 @@ const Header = () => {
                         <Link href="/my-tickets">
                            <Ticket className="w-4 h-4" />
                         </Link>
-                    
                      <UserButton />
                   </div>
                </SignedIn>
+               <SignedOut>
+                     <SignInButton mode="modal">
+                        <Button variant={"ghost"} className=" text-gray-800 px-3 py-1.5 hover:bg-gray-50">Sign In</Button>
+                     </SignInButton>
+                  </SignedOut>
             </div>
 
             {/* Mobil Application */}

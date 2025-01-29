@@ -7,7 +7,7 @@ import { api } from "../../convex/_generated/api";
 
 const SyncConvexWithUser = () => {
    
-   const {user} = useUser();
+   const {user,isSignedIn} = useUser();
    const updateUser = useMutation(api.users.updateUser);
 
    useEffect(() => {
@@ -23,10 +23,12 @@ const SyncConvexWithUser = () => {
             console.error(e);
          }
       }
-      syncUser();
-   }, [user, updateUser]);
+      if(isSignedIn) {
+         syncUser();
+      }
+   }, [user, updateUser,isSignedIn]);
 
-   return <div>SyncConvexWithUser</div>;
+   return <div></div>;
 };
 
 export default SyncConvexWithUser;
