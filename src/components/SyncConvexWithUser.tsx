@@ -11,6 +11,7 @@ const SyncConvexWithUser = () => {
    const updateUser = useMutation(api.users.updateUser);
 
    useEffect(() => {
+      
       const syncUser = async () => {
          try {
             await updateUser({
@@ -19,10 +20,11 @@ const SyncConvexWithUser = () => {
                email: user?.emailAddresses[0].emailAddress ?? "",
             })
          }
-         catch(e){
+         catch(e) {
             console.error(e);
          }
       }
+
       if(isSignedIn) {
          syncUser();
       }

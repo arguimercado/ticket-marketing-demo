@@ -11,6 +11,8 @@ const buttonVariants = cva(
       variant: {
         info: "bg-sky-800 text-primary-foreground hover:bg-sky-500",
         danger: "bg-red-800 text-primary-foreground hover:bg-red-500",
+        success: "bg-green-800 text-primary-foreground hover:bg-green-500",
+        
         default:
           "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive:
