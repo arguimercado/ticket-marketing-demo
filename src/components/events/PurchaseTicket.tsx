@@ -4,12 +4,12 @@ import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
-import { off } from "process";
+
 import { getTimeRemaining } from "@/lib/utils";
 import { Ticket } from "lucide-react";
-import { Button } from "./ui/button";
+import { Id } from "../../../convex/_generated/dataModel";
+import { api } from "../../../convex/_generated/api";
+
 
 const usePuchaseTicket = (eventId: Id<"events">) => {
    const router = useRouter();

@@ -2,7 +2,7 @@
 import { useQuery } from "convex/react";
 import React from "react";
 import { api } from "../../../../../convex/_generated/api";
-import Spinner from "../../../../components/Spinner";
+import Spinner from "../../../../components/commons/Spinner";
 import EventCollection from "./EventCollections";
 import PastEvent from "./PastEvent";
 

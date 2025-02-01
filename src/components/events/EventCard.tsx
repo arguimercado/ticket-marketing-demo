@@ -1,12 +1,7 @@
 "use client";
-import React, { use } from "react";
-import { Id } from "../../convex/_generated/dataModel";
-import { useUser } from "@clerk/nextjs";
+import React from "react";
+import { Id } from "../../../convex/_generated/dataModel";
 
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { useRouter } from "next/navigation";
-import { useStorageUrl } from "@/lib/useStorageUrl";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import {
@@ -20,70 +15,18 @@ import {
    Ticket,
    XCircle,
 } from "lucide-react";
-import PinCard from "./commons/PinCard";
-import { Button } from "./ui/button";
+import PinCard from "../commons/PinCard";
+import { Button } from "../ui/button";
 import { ROUTE } from "@/constants/router";
+
+import EventPolicy from "@/lib/policies/event";
+import { useEvent } from "@/hooks/useEvent";
+import EventSoldOut from "./EventSoldOut";
 import PurchaseTicket from "./PurchaseTicket";
-
-class EventPolicy {
-   event: any;
-   user: any;
-   availability: any;
-
-   constructor(event, user, availability) {
-      this.event = event;
-      this.user = user;
-      this.availability = availability;
-   }
-
-   isPastEvent() {
-      return this.event.eventDate < Date.now();
-   }
-
-   isEventOwner() {
-      return this.user?.id === this.event.userId;
-   }
-
-   isSoldOut() {
-      return this.availability.purchaseCount >= this.availability.totalTickets;
-   }
-}
-
-const useEvent = ({ eventId }: { eventId: Id<"events"> }) => {
-   const { user } = useUser();
-   const router = useRouter();
-
-   const event = useQuery(api.events.getById, { eventId });
-   const availability = useQuery(api.events.getEventAvailability, { eventId });
-
-   const userTicket = useQuery(api.tickets.getUserTicketForEvent, {
-      eventId,
-      userId: user?.id ?? "",
-   });
-
-   const queuePosition = useQuery(api.waitingList.getQueuePosition, {
-      eventId,
-      userId: user?.id ?? "",
-   });
-
-   const imageUrl = useStorageUrl(event?.imageStorageId);
-
-   const remainingTickets =
-      availability?.totalTickets - availability?.purchaseCount;
-
-   return {
-      event,
-      availability,
-      userTicket,
-      queuePosition,
-      imageUrl,
-      router,
-      user,
-      remainingTickets,
-   };
-};
+ 
 
 const EventCard = ({ eventId }: { eventId: Id<"events"> }) => {
+   
    const {
       event,
       availability,
@@ -103,14 +46,7 @@ const EventCard = ({ eventId }: { eventId: Id<"events"> }) => {
       if (!queuePosition || queuePosition.status !== "waiting") return null;
 
       if (policy.isSoldOut()) {
-         return (
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-               <div className="flex items-center">
-                  <Ticket className="w-5 h-5 text-gray-400 mr-2" />
-                  <span className="text-gray-600">Event is sold out</span>
-               </div>
-            </div>
-         );
+         return <EventSoldOut />;
       }
 
       if (queuePosition.position === 2) {
@@ -222,18 +158,16 @@ const EventCard = ({ eventId }: { eventId: Id<"events"> }) => {
             )}
          >
             <div className="flex flex-col">
-               {imageUrl && (
-                  <div className="relative w-full h-48">
-                     <Image
-                        src={imageUrl}
-                        alt={event.name}
-                        fill
-                        className="object-cover"
-                        priority
-                     />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/50" />
-                  </div>
-               )}
+               <div className="relative w-full h-48">
+                  <Image
+                     src={"https://images1.smtickets.com/images/portrait_27122024145310.jpg"}
+                     alt={event.name}
+                     fill
+                     className="object-cover"
+                     priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50" />
+               </div>
                <div className={`p-6 ${imageUrl ? "relative" : ""}`}>
                   <div className="flex flex-col items-start">
                      {/* Event name and owner badge */}
@@ -277,12 +211,11 @@ const EventCard = ({ eventId }: { eventId: Id<"events"> }) => {
 
                   {/* Event detail */}
                   <div className="mt-4 space-y-3 text-xs">
-                     <PinCard Icon={MapPin} description={event.location} />
+                     <PinCard Icon={MapPin} description={event.location} position={"left"} />
                      <PinCard
                         Icon={CalendarDays}
-                        description={`${new Date(event.eventDate).toLocaleDateString()} ${policy.isPastEvent() ? "(ended)" : ""}`}
-                     />
-                     <PinCard Icon={Ticket}>
+                        description={`${new Date(event.eventDate).toLocaleDateString()} ${policy.isPastEvent() ? "(ended)" : ""}`} position={"left"}                     />
+                     <PinCard Icon={Ticket} position={"left"}>
                         <span>
                            {remainingTickets} / {availability.totalTickets}{" "}
                            available

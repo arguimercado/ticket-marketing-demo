@@ -1,4 +1,4 @@
-import EventCard from "@/components/EventCard";
+import EventCard from "@/components/events/EventCard";
 import { CalendarDays, Ticket } from "lucide-react";
 import React from "react";
 

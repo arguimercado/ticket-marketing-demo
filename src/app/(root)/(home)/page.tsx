@@ -1,34 +1,19 @@
 "use client";
-import { useQuery } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import Spinner from "@/components/Spinner";
-import { CalendarDays } from "lucide-react";
-import EventCollection from "./_components/EventCollections";
-import EventCard from "@/components/EventCard";
+import Spinner from "@/components/commons/Spinner";
+import EventCard from "@/components/events/EventCard";
+import { useEvents } from "@/hooks/useEvent";
 
 export default function Home() {
 
-   const events = useQuery(api.events.get, {});
+   const {eventsByLocation} = useEvents();
 
-   if (!events) {
+   if (!eventsByLocation) {
       return (
          <div className="min-h-[400px] flex items-center justify-center">
             <Spinner />
          </div>
       );
    }
-
-   //group the events by location
-   const eventsByLocation = events.reduce((acc, event) => {
-      const location = event.location;
-      if (!acc[location]) {
-         acc[location] = [];
-      }
-      acc[location].push(event);
-      return acc;
-   }, {} as Record<string, typeof events>);
-   console.log(eventsByLocation);
-
   
    return (
       <div className="w-full lg:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
